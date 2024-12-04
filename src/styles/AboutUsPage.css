@@ -1,0 +1,108 @@
+/* About Us Page Styling */
+.about-us-page {
+  padding: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #f8f9fa; /* Light background to match home container */
+  color: #34495e; /* Dark text for readability */
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Softer shadow */
+}
+
+.about-us-page h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #2c3e50; /* Darker title color */
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.about-us-page h2 {
+  font-size: 28px;
+  color: #3498db; /* Bright blue for subheadings */
+  margin-bottom: 15px;
+}
+
+.about-us-page p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+ul li {
+  font-size: 18px;
+  line-height: 1.8;
+  margin-bottom: 10px;
+  color: #34495e; /* Consistent text color */
+}
+
+ol {
+  padding-left: 20px;
+}
+
+ol li {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #34495e; /* Consistent text color */
+}
+
+strong {
+  font-weight: bold;
+  color: #2c3e50; /* Consistent strong text color */
+}
+
+.who-done-it, .technologies-used, .how-to-use, .hire-me {
+  margin-bottom: 40px;
+}
+
+.hire-me p {
+  font-size: 18px;
+  margin-top: 15px;
+  text-align: center;
+  color: #34495e; /* Consistent text color */
+}
+
+.hire-me strong {
+  font-size: 20px;
+  color: #3498db; /* Bright blue for emphasis */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .about-us-page {
+    padding: 20px;
+  }
+
+  .about-us-page h1 {
+    font-size: 28px;
+  }
+
+  .about-us-page h2 {
+    font-size: 24px;
+  }
+
+  .about-us-page p, .hire-me p {
+    font-size: 16px;
+  }
+
+  ul li, ol li {
+    font-size: 16px;
+  }
+}
+
+.about-us-section {
+  margin-bottom: 40px;
+}
+
+.about-us-section a {
+  color: #3498db; /* Bright blue links to match the theme */
+  text-decoration: none;
+}
+
+.about-us-section a:hover {
+  text-decoration: underline; /* Underline for hover effect */
+}
