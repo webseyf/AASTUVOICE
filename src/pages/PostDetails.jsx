@@ -104,10 +104,14 @@ const PostDetails = () => {
       {(post.price || post.phoneNumber) && (
         <div className="post-info">
           {post.price && (
-            <p className="post-price">Price: <strong>${post.price.toFixed(2)}</strong></p>
+            <p className="post-price">
+              Price: <strong>{post.price.toFixed(2)} Br</strong>
+            </p>
           )}
           {post.phoneNumber && (
-            <p className="post-phone">Contact: <strong>{post.phoneNumber}</strong></p>
+            <p className="post-phone">
+              Contact: <strong>{post.phoneNumber}</strong>
+            </p>
           )}
         </div>
       )}

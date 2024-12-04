@@ -48,7 +48,7 @@ const PostCard = ({ post }) => {
           {/* Display price if the post is a product for sale or has a price */}
           {(category === "Product To Sale" || (price && phoneNumber)) && (
             <p className="post-price">
-              Price: <strong>${price.toFixed(2)}</strong> {/* Format price */}
+              Price: <strong>{price.toFixed(2)} Br</strong> {/* Format price */}
             </p>
           )}
         </div>

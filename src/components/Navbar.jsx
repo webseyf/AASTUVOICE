@@ -25,7 +25,7 @@ const Navbar = () => {
       <div className="navbar-container">
         {/* Logo */}
         <div className="navbar-logo">
-          <a href="/"><h1>Ethio<span>Voice</span></h1></a>
+          <a href="/"><h1>AASTU<span>VOICE</span></h1></a>
         </div>
 
         {/* Watch Now Button */}

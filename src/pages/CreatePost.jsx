@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useFirestore } from "../hooks/useFirestore";
 import { useAuth } from "../hooks/useAuth";
 import "../styles/CreatePost.css";
+import axios from "axios"; // Import Axios for making HTTP requests
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
@@ -10,8 +11,8 @@ const CreatePost = () => {
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [imageURL, setImageURL] = useState("");
   const [loading, setLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null); // State for the selected file
   const { user } = useAuth();
   const { addPost } = useFirestore();
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+    
     // Basic validations
     if (!title || !content || !category) {
       alert("All fields are required.");
@@ -38,6 +39,23 @@ const CreatePost = () => {
       return;
     }
 
+    let imageURL = null; // Initialize imageURL here
+
+    // Upload image to ImgBB if a file is selected
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+
+      try {
+        const imgResponse = await axios.post('https://api.imgbb.com/1/upload?key=970605ee4c09903bbca5c5317f4b1df3', formData);
+        imageURL = imgResponse.data.data.url; // Get the image URL from the response
+      } catch (error) {
+        alert("Image upload failed: " + error.message);
+        setLoading(false);
+        return;
+      }
+    }
+
     const newPost = {
       title,
       content,
@@ -46,7 +64,7 @@ const CreatePost = () => {
       createdAt: new Date(),
       price: category === "Product To Sale" ? parseFloat(price) : null,
       phoneNumber: category === "Product To Sale" ? phoneNumber : null,
-      imageURL: imageURL.trim() || null,
+      imageURL: imageURL ? imageURL.trim() : null, // Use the imageURL set after upload
     };
 
     console.log("New Post Object: ", newPost); // Debugging line
@@ -140,23 +158,18 @@ const CreatePost = () => {
           </>
         )}
 
-        {/* Image URL */}
+        {/* Image Upload */}
         <div className="form-group">
-          <label htmlFor="imageURL">Add Image URL</label>
-          <div className="image-input-group">
-            <input
-              type="url"
-              id="imageURL"
-              value={imageURL}
-              onChange={(e) => setImageURL(e.target.value)}
-              placeholder="Enter an image URL"
-            />
-          </div>
-          {imageURL && (
+          <label htmlFor="imageFile">Upload Image</label>
+          <input
+            type="file"
+            id="imageFile"
+            accept="image/*"
+            onChange={(e) => setSelectedFile(e.target.files[0])}
+          />
+          {selectedFile && (
             <div className="image-preview-group">
-              <div className="image-preview-item">
-                <img src={imageURL} alt="Preview" className="preview-img" />
-              </div>
+              <p>Selected Image: {selectedFile.name}</p>
             </div>
           )}
         </div>

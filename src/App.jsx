@@ -12,6 +12,8 @@ import ProductDetails from "./pages/ProductDetails"; // New Post Details Page
 import PrivateRoute from "./components/PrivateRoute"; // Custom PrivateRoute
 import ContactUsPage from "./pages/ContactUsPage";
 import AboutUsPage from "./pages/AboutUsPage";
+import Own from "./components/own";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -44,6 +46,8 @@ const App = () => {
          
           } />
       </Routes>
+      <Own/>
+      <Footer/>
     </Router>
   );
 };

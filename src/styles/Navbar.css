@@ -255,6 +255,7 @@ body {
   .navbar-links {
     position: fixed;
     top: 0;
+    
     right: 0;
     flex-direction: column;
     gap: 1.5rem;
@@ -270,7 +271,11 @@ body {
   .navbar-links.active {
     transform: translateX(0);
   }
-
+  .navbar-logo h1 {
+    margin-left: 0;
+    font-size: 1.2rem;
+   
+  }
   .menu-toggle {
     display: block;
     font-size: 1.5rem;
@@ -290,9 +295,7 @@ body {
     gap: 2.5rem; /* Uniform spacing for large screens */
   }
 
-  .navbar-logo {
-    margin-left: 0;
-  }
+
 }
 
 /* High Resolution Screens */

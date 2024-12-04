@@ -45,7 +45,7 @@ const MarketPlace = () => {
 
   return (
     <div className="home-container">
-      <h1 className="page-title">Marketplace - Products for Sale</h1>
+      <h1 className="page-title name">Marketplace - Products for Sale</h1>
 
       {/* Search Bar */}
       <div className="search-container">

@@ -108,7 +108,13 @@
     font-size: 14px;
     padding: 8px;
   }
-
+  .posts-grid {
+    margin-top: 1px;
+    gap: 1px;
+  }
+  .name{
+    font-size: 20px;
+  }
   .filter-label {
     font-size: 14px;
   }
@@ -118,11 +124,16 @@
   .page-title {
     font-size: 2rem;
   }
-
+  .name{
+    font-size: 20px;
+  }
   .search-bar {
     padding: 10px 12px;
   }
-
+  .posts-grid {
+    margin-top: 1px;
+    gap: 1px;
+  }
   .posts-grid {
     grid-template-columns: 1fr;
   }

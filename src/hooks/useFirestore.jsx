@@ -100,6 +100,9 @@ export const useFirestore = () => {
   // Add a new post
   const addPost = async (postData) => {
     return await firestoreAction(async () => {
+      if (!postData.imageURL) {
+        console.warn("No image URL provided. Ensure it is set before adding the post.");
+      }
       await addDoc(postsRef, {
         ...postData,
         createdAt: Timestamp.now(), // Use Firebase's Timestamp

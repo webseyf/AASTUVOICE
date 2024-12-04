@@ -15,7 +15,7 @@ const Home = () => {
     const getPosts = async () => {
       try {
         const postsData = await fetchPosts();
-        // Filter out "Product To Sale" category
+        // Filter out "Product To Sale" category for general display
         const filteredData = postsData.filter(post => post.category !== "Product To Sale");
         setPosts(filteredData);
         setFilteredPosts(filteredData);
