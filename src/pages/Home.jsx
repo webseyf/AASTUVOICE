@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useFirestore } from "../hooks/useFirestore.jsx";
+import Fuse from "fuse.js";
 import PostCard from "../components/PostCard.jsx";
 import "../styles/Home.css";
 
@@ -8,21 +9,22 @@ const Home = () => {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const { fetchPosts } = useFirestore();
 
-  // Fetch posts
+  // Fuse.js options
+  const fuseOptions = {
+    keys: ["title", "content"], // Fields to search within
+    threshold: 0.3, // Match tolerance (lower = stricter)
+  };
+
   useEffect(() => {
     const getPosts = async () => {
       try {
         const postsData = await fetchPosts();
-        // Filter out "Product To Sale" category for general display
-        const filteredData = postsData.filter(post => post.category !== "Product To Sale");
-        setPosts(filteredData);
-        setFilteredPosts(filteredData);
+        setPosts(postsData);
+        setFilteredPosts(postsData);
       } catch (error) {
         console.error("Error fetching posts:", error);
-        setError("Failed to load posts. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -31,13 +33,14 @@ const Home = () => {
     getPosts();
   }, [fetchPosts]);
 
-  // Handle search with onChange
   useEffect(() => {
-    const filtered = posts.filter((post) => 
-      post.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.content?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredPosts(filtered);
+    if (!searchQuery) {
+      setFilteredPosts(posts); // Reset to all posts if query is empty
+    } else {
+      const fuse = new Fuse(posts, fuseOptions);
+      const results = fuse.search(searchQuery).map(({ item }) => item); // Extract matched items
+      setFilteredPosts(results);
+    }
   }, [searchQuery, posts]);
 
   return (
@@ -59,8 +62,6 @@ const Home = () => {
       {/* Posts */}
       {loading ? (
         <div className="loading">Loading...</div>
-      ) : error ? (
-        <div className="error-message">{error}</div> // Show error message if fetch fails
       ) : filteredPosts.length > 0 ? (
         <div className="posts-grid">
           {filteredPosts.map((post) => (
@@ -68,9 +69,7 @@ const Home = () => {
           ))}
         </div>
       ) : (
-        <p className="no-posts-message">
-          No posts found. Try a different search.
-        </p>
+        <p className="no-posts-message">No posts found. Try a different search.</p>
       )}
     </div>
   );

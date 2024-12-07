@@ -72,6 +72,15 @@ const Navbar = () => {
             Contact Us
             </NavLink>
           </li>
+          <li>
+  <NavLink to="/download" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+    <span className="down">
+      <img className="nav-icon" src="/download_8515110.png" alt="App Icon" />
+      <p className="nav-text">App</p>
+    </span>
+  </NavLink>
+</li>
+
 
           {/* Conditionally render based on user authentication */}
           {!currentUser ? (

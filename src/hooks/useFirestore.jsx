@@ -39,15 +39,36 @@ export const useFirestore = () => {
   const commentsRef = collection(db, "comments");
 
   // Fetch all posts (ordered by creation date)
-  const fetchPosts = async () => {
-    return await firestoreAction(async () => {
+// Fetch all posts (ordered by creation date)
+const fetchPosts = async () => {
+  return await firestoreAction(async () => {
+    try {
       const q = query(postsRef, orderBy("createdAt", "desc"));
       const snapshot = await getDocs(q);
-      return snapshot.empty
-        ? []
-        : snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    }, setLoading, setError);
-  };
+
+      if (snapshot.empty) {
+        console.warn("No posts found in Firestore.");
+        return []; // Return an empty array if no posts found
+      }
+
+      return snapshot.docs.map((doc) => {
+        const data = doc.data();
+        // Ensure `createdAt` is present; otherwise, log a warning
+        if (!data.createdAt) {
+          console.warn(`Document ${doc.id} is missing 'createdAt' field.`);
+        }
+        return {
+          id: doc.id,
+          ...data,
+          createdAt: data.createdAt ? data.createdAt.toDate() : null, // Convert Firestore Timestamp to JS Date
+        };
+      });
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      throw error; // Re-throw to handle in `firestoreAction`
+    }
+  }, setLoading, setError);
+};
 
   // Fetch a single post by ID
   const fetchPostById = async (postId) => {

@@ -15,6 +15,7 @@ import AboutUsPage from "./pages/AboutUsPage";
 import Own from "./components/own";
 import Footer from "./components/Footer";
 
+import Download from "./pages/Download";
 const App = () => {
   return (
     <Router>
@@ -25,6 +26,8 @@ const App = () => {
         <Route path="/marketplace" element={<MarketPlace />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/download" element={<Download />} />
+        
         {/* <Route path="/products/:id" element={<ProductDetails />} /> */}
         <Route path="/posts/:id" element={<PostDetails />} />
         <Route path='/contact-us' element={<ContactUsPage/>}/>

@@ -15,6 +15,26 @@ body {
   z-index: 1000;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
+img {
+  width: 25px;
+  height: 25px;
+}
+
+.down {
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
+  gap: 2px; /* Add spacing between the image and text */
+}
+
+.nav-link {
+  text-decoration: none; /* Remove underline from links */
+  color: inherit; /* Match parent text color */
+}
+
+.nav-text {
+  margin: 0; /* Remove default margin from the <p> tag */
+  font-size: 18px; /* Adjust font size */
+}
 
 /* Navbar Container */
 .navbar-container {
@@ -342,4 +362,10 @@ body {
   display: inline-block;
   font-size: 1.5rem; /* Keep the icon size */
   color: white; /* White color for the plus sign */
+}
+
+
+
+.nav-text{
+  color
 }
