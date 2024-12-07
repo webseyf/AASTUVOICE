@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useAuth } from "../hooks/useAuth.jsx"; // Import the custom hook
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"; 
-import { auth } from "../firebase/config"; // Import Firebase auth instance
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../styles/Login.css";
 
 const Login = () => {
-  const { logIn } = useAuth(); // Use logIn from the custom hook
+  const { logIn, logInWithGoogle } = useAuth(); // Use logIn and Google login from AuthContext
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -14,11 +13,10 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
     setError("");
     setLoading(true);
     try {
-      await signInWithPopup(auth, provider); // Use auth from config
+      await logInWithGoogle(); // Use the context method
       navigate("/"); 
     } catch (err) {
       setError(err.message || "Google login failed. Please try again.");
@@ -43,7 +41,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h2>Log In</h2>
+      <h2>Welcome Back!</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email</label>
@@ -84,9 +82,9 @@ const Login = () => {
       </div>
       <p>
         Don't have an account?{" "}
-        <a href="/signup" className="toggle-auth">
+        <Link to="/signup" className="toggle-auth">
           Sign Up
-        </a>
+        </Link>
       </p>
     </div>
   );

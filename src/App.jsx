@@ -8,7 +8,7 @@ import Login from "./pages/Login";
 //import Profile from "./pages/Profile"; // Protected page
 import CreatePost from "./pages/CreatePost";
 import PostDetails from "./pages/PostDetails"; // New Post Details Page
-import ProductDetails from "./pages/ProductDetails"; // New Post Details Page
+//import ProductDetails from "./pages/ProductDetails"; // New Post Details Page
 import PrivateRoute from "./components/PrivateRoute"; // Custom PrivateRoute
 import ContactUsPage from "./pages/ContactUsPage";
 import AboutUsPage from "./pages/AboutUsPage";
@@ -25,7 +25,7 @@ const App = () => {
         <Route path="/marketplace" element={<MarketPlace />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/products/:id" element={<ProductDetails />} />
+        {/* <Route path="/products/:id" element={<ProductDetails />} /> */}
         <Route path="/posts/:id" element={<PostDetails />} />
         <Route path='/contact-us' element={<ContactUsPage/>}/>
         <Route path="/about-us" element={<AboutUsPage/>}/>

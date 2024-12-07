@@ -12,6 +12,8 @@ import {
   orderBy,
   where,
   Timestamp,
+  // arrayUnion,
+  // increment,
 } from "firebase/firestore";
 
 // Helper function to handle Firestore operations with loading and error states
@@ -77,12 +79,12 @@ export const useFirestore = () => {
       await addDoc(commentsRef, {
         ...commentData,
         postId,
-        createdAt: Timestamp.now(), // Use Firebase's Timestamp
+        createdAt: Timestamp.now(),
       });
     }, setLoading, setError);
   };
 
-  // Fetch posts created by a specific user (using email)
+  // Fetch posts created by a specific user
   const fetchUserPosts = async (email) => {
     return await firestoreAction(async () => {
       const q = query(
@@ -100,14 +102,11 @@ export const useFirestore = () => {
   // Add a new post
   const addPost = async (postData) => {
     return await firestoreAction(async () => {
-      if (!postData.imageURL) {
-        console.warn("No image URL provided. Ensure it is set before adding the post.");
-      }
       await addDoc(postsRef, {
         ...postData,
-        createdAt: Timestamp.now(), // Use Firebase's Timestamp
-        likes: 0,
-        likedBy: [],
+        createdAt: Timestamp.now(),
+        // likes: 0,
+        // likedBy: [],
       });
     }, setLoading, setError);
   };
@@ -126,6 +125,34 @@ export const useFirestore = () => {
     }, setLoading, setError);
   };
 
+  // Like a post (ensures one like per user)
+  // const likePost = async (postId, userId) => {
+  //   return await firestoreAction(async () => {
+  //     const postRef = doc(postsRef, postId);
+
+  //     await db.runTransaction(async (transaction) => {
+  //       const postSnap = await transaction.get(postRef);
+  //       if (!postSnap.exists()) {
+  //         throw new Error("Post does not exist");
+  //       }
+
+  //       const postData = postSnap.data();
+  //       const { likedBy = [] } = postData;
+
+  //       if (likedBy.includes(userId)) {
+  //         // User already liked, no action needed
+  //         return;
+  //       }
+
+  //       // Add user to likedBy and increment likes
+  //       transaction.update(postRef, {
+  //         likedBy: arrayUnion(userId),
+  //         likes: increment(1),
+  //       });
+  //     });
+  //   }, setLoading, setError);
+  // };
+
   return {
     fetchPosts,
     fetchPostById,
@@ -135,6 +162,7 @@ export const useFirestore = () => {
     addPost,
     deletePost,
     updatePost,
+    // likePost,
     loading,
     error,
   };

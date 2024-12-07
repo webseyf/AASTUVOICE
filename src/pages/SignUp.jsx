@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { useAuth } from "../hooks/useAuth.jsx"; 
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"; 
-import { auth } from "../firebase/config";
+import { useAuth } from "../hooks/useAuth.jsx"; // Import the custom hook
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../styles/SignUp.css";
 
 const SignUp = () => {
-  const { signUp } = useAuth();
+  const { signUp, logInWithGoogle } = useAuth(); // Use signUp and Google login from AuthContext
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -14,14 +13,13 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const handleGoogleSignUp = async () => {
-    const provider = new GoogleAuthProvider();
     setError("");
     setLoading(true);
     try {
-      await signInWithPopup(auth, provider);
+      await logInWithGoogle(); // Use the context method
       navigate("/");
     } catch (err) {
-      setError("Google sign-up failed. Please try again.");
+      setError(err.message || "Google sign-up failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -35,7 +33,7 @@ const SignUp = () => {
       await signUp(email, password);
       navigate("/");
     } catch (err) {
-      setError("Sign-up failed. Please check your details and try again.");
+      setError(err.message || "Sign-up failed. Please check your details and try again.");
     } finally {
       setLoading(false);
     }
@@ -91,9 +89,9 @@ const SignUp = () => {
       </div>
       <p>
         Already have an account?{" "}
-        <a href="/login" className="toggle-auth">
+        <Link to="/login" className="toggle-auth">
           Log In
-        </a>
+        </Link>
       </p>
     </div>
   );

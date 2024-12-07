@@ -35,7 +35,8 @@ const ContactUsPage = () => {
 
       <section className="contact-form-section">
         <h2>Get in Touch</h2>
-        <form onSubmit={handleSubmit} className="contact-form">
+        <form onSubmit={handleSubmit} className="contact-form"  action="https://formspree.io/f/xdkovoqj"
+  method="POST">
           <label htmlFor="name">Your Name:</label>
           <input
             type="text"

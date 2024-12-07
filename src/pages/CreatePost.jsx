@@ -11,21 +11,24 @@ const CreatePost = () => {
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [deliveryOption, setDeliveryOption] = useState(""); // State for delivery option
   const [loading, setLoading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null); // State for the selected file
+  const [selectedFiles, setSelectedFiles] = useState([]); // State for multiple file selection
   const { user } = useAuth();
   const { addPost } = useFirestore();
   const navigate = useNavigate();
 
-  const categories = [
-    "All General Posts",
-    "Product To Sale",
-  ];
+  const categories = ["All General Posts", "Product To Sale"];
+  const deliveryOptions = ["Free delivery", "Pick up", "5 Birr delivery"]; // Delivery options
+
+  const handleFileChange = (e) => {
+    setSelectedFiles([...e.target.files]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     // Basic validations
     if (!title || !content || !category) {
       alert("All fields are required.");
@@ -33,27 +36,30 @@ const CreatePost = () => {
       return;
     }
 
-    if (category === "Product To Sale" && (!price || !phoneNumber)) {
-      alert("Price and phone number are required for products to sale.");
+    if (category === "Product To Sale" && (!price || !phoneNumber || !deliveryOption)) {
+      alert("Price, phone number, and delivery option are required for products to sell.");
       setLoading(false);
       return;
     }
 
-    let imageURL = null; // Initialize imageURL here
+    let imageURLs = []; // Initialize imageURLs array here
 
-    // Upload image to ImgBB if a file is selected
-    if (selectedFile) {
-      const formData = new FormData();
-      formData.append("image", selectedFile);
+    // Upload images to ImgBB if files are selected
+    if (selectedFiles.length > 0) {
+      const uploadPromises = selectedFiles.map((file) => {
+        const formData = new FormData();
+        formData.append("image", file);
 
-      try {
-        const imgResponse = await axios.post('https://api.imgbb.com/1/upload?key=970605ee4c09903bbca5c5317f4b1df3', formData);
-        imageURL = imgResponse.data.data.url; // Get the image URL from the response
-      } catch (error) {
-        alert("Image upload failed: " + error.message);
-        setLoading(false);
-        return;
-      }
+        return axios
+          .post("https://api.imgbb.com/1/upload?key=970605ee4c09903bbca5c5317f4b1df3", formData)
+          .then((response) => response.data.data.url)
+          .catch((error) => {
+            console.error("Image upload failed:", error.message);
+            alert("Image upload failed.");
+          });
+      });
+
+      imageURLs = await Promise.all(uploadPromises);
     }
 
     const newPost = {
@@ -64,10 +70,9 @@ const CreatePost = () => {
       createdAt: new Date(),
       price: category === "Product To Sale" ? parseFloat(price) : null,
       phoneNumber: category === "Product To Sale" ? phoneNumber : null,
-      imageURL: imageURL ? imageURL.trim() : null, // Use the imageURL set after upload
+      deliveryOption: category === "Product To Sale" ? deliveryOption : null, // Include delivery option
+      imageURLs, // Store array of image URLs
     };
-
-    console.log("New Post Object: ", newPost); // Debugging line
 
     try {
       await addPost(newPost);
@@ -155,21 +160,45 @@ const CreatePost = () => {
                 required
               />
             </div>
+            <div className="form-group">
+              <label htmlFor="deliveryOption">Delivery Option</label>
+              <select
+                id="deliveryOption"
+                value={deliveryOption}
+                onChange={(e) => setDeliveryOption(e.target.value)}
+                required
+              >
+                <option value="" disabled>
+                  Select a delivery option
+                </option>
+                {deliveryOptions.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
           </>
         )}
 
         {/* Image Upload */}
         <div className="form-group">
-          <label htmlFor="imageFile">Upload Image</label>
+          <label htmlFor="imageFiles">Upload Images</label>
           <input
             type="file"
-            id="imageFile"
+            id="imageFiles"
             accept="image/*"
-            onChange={(e) => setSelectedFile(e.target.files[0])}
+            multiple
+            onChange={handleFileChange}
           />
-          {selectedFile && (
+          {selectedFiles.length > 0 && (
             <div className="image-preview-group">
-              <p>Selected Image: {selectedFile.name}</p>
+              <p>Selected Files:</p>
+              <ul>
+                {selectedFiles.map((file, index) => (
+                  <li key={index}>{file.name}</li>
+                ))}
+              </ul>
             </div>
           )}
         </div>

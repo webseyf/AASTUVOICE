@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFirestore } from "../hooks/useFirestore";
 import { useAuth } from "../contexts/AuthContexts";
@@ -17,6 +17,8 @@ const PostDetails = () => {
   const [commentsLoading, setCommentsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   useEffect(() => {
     const loadPost = async () => {
       try {
@@ -28,7 +30,6 @@ const PostDetails = () => {
         }
       } catch (error) {
         setError("Failed to load post. Please try again later.");
-        navigate("/error");
       } finally {
         setLoading(false);
       }
@@ -71,53 +72,113 @@ const PostDetails = () => {
     }
   };
 
-  const renderComments = (comments) => {
+  const renderComments = useMemo(() => {
     return comments.map((comment) => (
       <div key={comment.id} className="comment">
         <strong>{comment.author}</strong>: {comment.text}
         <small>{new Date(comment.createdAt).toLocaleString()}</small>
       </div>
     ));
+  }, [comments]);
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : post.imageURLs.length - 1));
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (!post) return <div>Post not found.</div>;
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex < post.imageURLs.length - 1 ? prevIndex + 1 : 0));
+  };
+
+  if (loading) return <div className="loading">Loading...</div>;
+  if (!post) return <div className="error">Post not found. <button onClick={() => navigate("/")}>Go back</button></div>;
 
   return (
     <div className="post-details-container">
       <header className="post-header">
         <h1>{post.title}</h1>
         <p>
-          By <span>{post.author || "Anonymous"}</span>
+          By <span className="ah">{post.author || "Anonymous"}</span>
         </p>
       </header>
 
-      {post.imageURL && (
-        <img src={post.imageURL} alt={post.title} className="post-image" />
-      )}
+      {/* Image Gallery */}
+      <div className="image-gallery">
+        {post.imageURLs?.length > 0 && (
+          <>
+            {/* Desktop view: show all images */}
+            <div className="desktop-images">
+              {post.imageURLs.map((imageURL, index) => (
+                <img
+                  key={index}
+                  src={imageURL}
+                  alt={post.title}
+                  className="post-image"
+                  loading="lazy"
+                  style={{ transition: "opacity 0.5s ease-in-out" }}
+                />
+              ))}
+            </div>
+
+            {/* Mobile view: Show image slideshow */}
+            <div className="mobile-slideshow">
+              <img
+                src={post.imageURLs[currentImageIndex]}
+                alt={post.title}
+                className="post-image"
+                loading="lazy"
+                style={{ transition: "transform 0.5s ease-in-out" }}
+              />
+              <button 
+                className="prev-button" 
+                onClick={handlePrevImage} 
+                aria-label="Previous Image"
+              >
+                &#10094;
+              </button>
+              <button 
+                className="next-button" 
+                onClick={handleNextImage} 
+                aria-label="Next Image"
+              >
+                &#10095;
+              </button>
+            </div>
+          </>
+        )}
+      </div>
 
       <section className="post-content">
-        <p>{post.content}</p>
-      </section>
+  <p>{post.content}</p>
+</section>
 
-      {/* Display price and phone number if available */}
-      {(post.price || post.phoneNumber) && (
-        <div className="post-info">
-          {post.price && (
-            <p className="post-price">
-              Price: <strong>{post.price.toFixed(2)} Br</strong>
-            </p>
-          )}
-          {post.phoneNumber && (
-            <p className="post-phone">
-              Contact: <strong>{post.phoneNumber}</strong>
-            </p>
-          )}
+{/* Display price, phone number, and delivery option if available */}
+{(post.price || post.phoneNumber || post.deliveryOption) && (
+  <div className="post-info">
+    {post.price && (
+      <p className="post-price">
+        Price: <strong>{post.price.toFixed(2)} Br</strong>
+      </p>
+    )}
+    {post.phoneNumber && (
+      <p className="post-phone">
+        Contact: <strong>{post.phoneNumber}</strong>
+      </p>
+    )}
+    {post.deliveryOption && (
+      <p className="post-delivery">
+        Delivery: <strong>{post.deliveryOption}</strong>
+      </p>
+    )}
+  </div>
+)}
+
+      {error && (
+        <div className="error-message">
+          <p>{error}</p>
+          <button onClick={() => window.location.reload()}>Retry</button>
         </div>
       )}
-
-      {error && <p className="error-message">{error}</p>}
-
+<hr className="hr"/>
       <div className="comments-container">
         <h2>Comments</h2>
         {currentUser && (
@@ -136,13 +197,16 @@ const PostDetails = () => {
             </div>
           </form>
         )}
-        {commentsLoading ? (
-          <p>Loading comments...</p>
-        ) : comments.length > 0 ? (
-          renderComments(comments)
-        ) : (
-          <p>No comments yet. Be the first to comment!</p>
-        )}
+<div className="comments-container">
+  {commentsLoading ? (
+    <p className="comments-loading">Loading comments...</p>
+  ) : comments.length > 0 ? (
+    <div className="comments-list">{renderComments}</div>
+  ) : (
+    <p className="no-comments">No comments yet. Be the first to comment!</p>
+  )}
+</div>
+
       </div>
     </div>
   );

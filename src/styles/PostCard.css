@@ -4,8 +4,9 @@
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   overflow: hidden;
-  margin: 1rem;
-  box-shadow: 0 17px 22px rgba(0, 0, 0, 0.1);
+  margin: 0.4rem;
+  /* max-height: 460px; */
+  box-shadow: 0 27px 32px rgba(5, 5, 5, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -17,7 +18,7 @@
 /* Image Section */
 .post-image {
   width: 100%;
-  height: 200px;
+  /* height: 180px; */
   object-fit: cover;
   background-color: #f0f0f0;
 }
@@ -36,7 +37,7 @@
 
 /* Content Section */
 .post-details {
-  padding: 1rem; /* Standardized padding */
+  padding: 0.8rem; /* Standardized padding */
 }
 
 .post-title {
@@ -70,7 +71,7 @@
   padding: 8px 16px;
   font-size: 0.9rem;
   font-weight: bold;
-  color: #deda03;
+  /* color: #deda03; */
   background: #f1f5f7;
   border-radius: 4px;
   text-decoration: none;
@@ -94,7 +95,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .post-image {
-    height: 150px; /* Reduced height for smaller screens */
+    height: 140px; /* Reduced height for smaller screens */
   }
 
   .post-title {
@@ -112,6 +113,7 @@
 }
 
 @media (max-width: 480px) {
+
   .post-details {
     padding: 12px;
   }
@@ -128,4 +130,57 @@
     font-size: 0.8rem;
     padding: 5px 10px;
   }
+}
+
+.post-delivery {
+  margin-top: 0.5rem;
+  color: #555;
+  
+  font-weight: bold;
+}
+.one{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+
+.more-images{
+  color: white !important;
+  margin-top: -54px;
+  z-index: 11111;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.like-button button {
+  background-color: #c2c2c2;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.like-button button.liked {
+  background-color: #28a745;
+}
+
+.like-button button.not-liked {
+  background-color: #007bff;
+}
+
+.like-button button:hover {
+  background-color: #0056b3;
 }

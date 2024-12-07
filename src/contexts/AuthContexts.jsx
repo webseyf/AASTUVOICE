@@ -5,7 +5,9 @@ import {
   createUserWithEmailAndPassword, 
   signOut, 
   sendPasswordResetEmail, 
-  onAuthStateChanged 
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup 
 } from "firebase/auth";
 
 // Create the AuthContext
@@ -22,6 +24,7 @@ const getErrorMessage = (errorCode) => {
     'auth/weak-password': 'Password must be at least 6 characters.',
     'auth/user-not-found': 'No account found with this email.',
     'auth/wrong-password': 'Incorrect password. Please try again.',
+    'auth/popup-closed-by-user': 'The sign-in popup was closed before completing the sign-in process.',
   };
   return errorMessages[errorCode] || 'An unexpected error occurred. Please try again.';
 };
@@ -64,6 +67,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Log in with Google
+  const logInWithGoogle = async () => {
+    const googleProvider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      console.log("Google Sign-In Successful:", user);
+      return user;
+    } catch (error) {
+      console.error("Google Sign-In Error:", error.message);
+      throw new Error(getErrorMessage(error.code));
+    }
+  };
+
   // Log out the current user
   const logOut = async () => {
     try {
@@ -91,6 +108,7 @@ export const AuthProvider = ({ children }) => {
     currentUser,
     signUp,
     logIn,
+    logInWithGoogle, // Add Google login method
     logOut,
     resetPassword,
     auth, // Add the auth object to the context value

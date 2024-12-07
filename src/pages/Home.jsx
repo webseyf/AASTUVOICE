@@ -8,6 +8,7 @@ const Home = () => {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { fetchPosts } = useFirestore();
 
   // Fetch posts
@@ -21,6 +22,7 @@ const Home = () => {
         setFilteredPosts(filteredData);
       } catch (error) {
         console.error("Error fetching posts:", error);
+        setError("Failed to load posts. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -29,13 +31,12 @@ const Home = () => {
     getPosts();
   }, [fetchPosts]);
 
-  // Handle search
+  // Handle search with onChange
   useEffect(() => {
-    const filtered = posts.filter(post => {
-      return post.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-             post.content?.toLowerCase().includes(searchQuery.toLowerCase());
-    });
-
+    const filtered = posts.filter((post) => 
+      post.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.content?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
     setFilteredPosts(filtered);
   }, [searchQuery, posts]);
 
@@ -58,6 +59,8 @@ const Home = () => {
       {/* Posts */}
       {loading ? (
         <div className="loading">Loading...</div>
+      ) : error ? (
+        <div className="error-message">{error}</div> // Show error message if fetch fails
       ) : filteredPosts.length > 0 ? (
         <div className="posts-grid">
           {filteredPosts.map((post) => (
