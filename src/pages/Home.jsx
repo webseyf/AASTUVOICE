@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useFirestore } from "../hooks/useFirestore.jsx";
-import Fuse from "fuse.js";
 import PostCard from "../components/PostCard.jsx";
-import "../styles/Home.css";
+import "../styles/Home.css"; // Update this if needed for Marketplace-specific styling
 import Loader from "../components/Loader.jsx";
 
 const Home = () => {
@@ -12,18 +11,19 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const { fetchPosts } = useFirestore();
 
-  // Fuse.js options
-  const fuseOptions = {
-    keys: ["title", "content"], // Fields to search within
-    threshold: 0.3, // Match tolerance (lower = stricter)
-  };
-
+  // Fetch posts
   useEffect(() => {
     const getPosts = async () => {
       try {
         const postsData = await fetchPosts();
-        setPosts(postsData);
-        setFilteredPosts(postsData);
+
+        // Filter posts to only include "Product To Sale" category
+        const productToSalePosts = postsData.filter(
+          (post) => post.category === "All General Posts"
+        );
+
+        setPosts(productToSalePosts);
+        setFilteredPosts(productToSalePosts);
       } catch (error) {
         console.error("Error fetching posts:", error);
       } finally {
@@ -34,29 +34,29 @@ const Home = () => {
     getPosts();
   }, [fetchPosts]);
 
+  // Handle search
   useEffect(() => {
-    if (!searchQuery) {
-      setFilteredPosts(posts); // Reset to all posts if query is empty
-    } else {
-      const fuse = new Fuse(posts, fuseOptions);
-      const results = fuse.search(searchQuery).map(({ item }) => item); // Extract matched items
-      setFilteredPosts(results);
-    }
+    const filtered = posts.filter(
+      (post) =>
+        post.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.content?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredPosts(filtered);
   }, [searchQuery, posts]);
 
   return (
     <div className="home-container">
-      <h1 className="page-title">Latest Posts</h1>
+      <h1 className="page-title name">Latest Posts</h1>
 
-      {/* Search */}
+      {/* Search Bar */}
       <div className="search-container">
         <input
           type="text"
-          placeholder="Search posts..."
+          placeholder="Search products..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="search-bar"
-          aria-label="Search posts"
+          aria-label="Search products"
         />
       </div>
 
@@ -70,7 +70,7 @@ const Home = () => {
           ))}
         </div>
       ) : (
-        <p className="no-posts-message">No posts found. Try a different search.</p>
+        <p className="no-posts-message">No posts avalable or something went wrong. We are fixing it stay tuned</p>
       )}
     </div>
   );

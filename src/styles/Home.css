@@ -3,6 +3,7 @@
   padding: 10px;
   max-width: 1030px;  /* Slightly larger max-width */
   margin: 0 auto;
+  min-height: 70vh;
   font-family: 'Roboto', Arial, sans-serif;
   color: #34495e;
   background-color: #f8f9fa;

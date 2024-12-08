@@ -32,38 +32,6 @@ body {
 }
 
 
-.footer-links,
-.footer-social,
-.footer-copyright {
-  margin-bottom: 1.5rem;
-}
-
-.footer-links h4,
-.footer-social h4 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.footer-links ul {
-  list-style: none;
-  padding: 0;
-}
-
-.footer-links ul li {
-  margin: 0.5rem 0;
-}
-
-.footer-links ul li a {
-  color: #ff6347;
-  text-decoration: none;
-  font-size: 1.1rem;
-  transition: color 0.3s ease;
-}
-
-.footer-links ul li a:hover {
-  color: #ff4500;
-}
-
 .footer-social .social-icons {
   display: flex;
   gap: 1rem;
@@ -93,13 +61,5 @@ body {
     text-align: left;
   }
 
-  .footer-links,
-  .footer-social,
-  .footer-copyright {
-    margin-bottom: 0;
-  }
-
-  .footer-links ul {
-    text-align: left;
-  }
+  
 }

@@ -10,14 +10,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-content">
         {/* Navigation Links */}
-        <div className="footer-links">
-          <h4>Quick Links</h4>
-          <ul>
-            <li><Link to="/">All Posts</Link></li>
-            <li><Link to="/marketplace">MarketPlace</Link></li>
-            <li><Link to="/create-post">Create Post</Link></li>
-          </ul>
-        </div>
+      
 
         {/* Social Media Icons */}
         <div className="footer-social">
@@ -30,7 +23,7 @@ const Footer = () => {
           
           
           
-          
+           
           className="social-icons">
            
             <a href="https://www.linkedin.com/in/seyfadin-abdela-68112b33a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer">
@@ -47,7 +40,7 @@ const Footer = () => {
 
         {/* Copyright Information */}
         <div className="footer-copyright">
-          <p>© {currentYear} Scary Movie. All rights reserved.</p>
+          <p>© {currentYear} AastuVoice. All rights reserved.</p>
         </div>
       </div>
     </footer>
