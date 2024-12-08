@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFirestore } from "../hooks/useFirestore";
 import { useAuth } from "../contexts/AuthContexts";
+import { Link } from 'react-router-dom';
 import "../styles/PostDetails.css";
 import Loader from "../components/Loader";
 
@@ -204,7 +205,7 @@ const PostDetails = () => {
   ) : comments.length > 0 ? (
     <div className="comments-list">{renderComments}</div>
   ) : (
-    <p className="no-comments">No comments yet. Be the first to comment!</p>
+    <p className="no-comments">No comments yet. Be the first to comment! but frist make sure to be <Link to="/login">log in</Link> </p>
   )}
 </div>
 

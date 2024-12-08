@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useAuth } from "../hooks/useAuth.jsx"; // Import the custom hook
+import { useAuth } from "../hooks/useAuth"; // Use the AuthContext hook
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "../styles/Login.css";
 
 const Login = () => {
-  const { logIn, logInWithGoogle } = useAuth(); // Use logIn and Google login from AuthContext
+  const { logIn, logInWithGoogle } = useAuth(); // Use AuthContext methods
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -16,8 +16,8 @@ const Login = () => {
     setError("");
     setLoading(true);
     try {
-      await logInWithGoogle(); // Use the context method
-      navigate("/"); 
+      await logInWithGoogle(); // Google login
+      navigate("/"); // Navigate to the home page on success
     } catch (err) {
       setError(err.message || "Google login failed. Please try again.");
     } finally {
@@ -30,10 +30,10 @@ const Login = () => {
     setError("");
     setLoading(true);
     try {
-      await logIn(email, password);
-      navigate("/");
+      await logIn(email, password); // Email/password login
+      navigate("/"); // Navigate to the home page on success
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Login failed. Please check your credentials.");
     } finally {
       setLoading(false);
     }

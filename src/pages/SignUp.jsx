@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { useAuth } from "../hooks/useAuth.jsx"; // Import the custom hook
+import { useAuth } from "../hooks/useAuth"; // Import AuthContext hook
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import "../styles/SignUp.css";
 
 const SignUp = () => {
-  const { signUp, logInWithGoogle } = useAuth(); // Use signUp and Google login from AuthContext
+  const { logInWithGoogle, signUp } = useAuth(); // Use Google login and sign-up
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -16,7 +15,7 @@ const SignUp = () => {
     setError("");
     setLoading(true);
     try {
-      await logInWithGoogle(); // Use the context method
+      await logInWithGoogle(); // Google login
       navigate("/");
     } catch (err) {
       setError(err.message || "Google sign-up failed. Please try again.");
@@ -25,36 +24,31 @@ const SignUp = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
     try {
-      await signUp(email, password);
+      await signUp(email, password); // Email/password sign-up
       navigate("/");
     } catch (err) {
-      setError(err.message || "Sign-up failed. Please check your details and try again.");
+      setError(err.message || "Sign-up failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleInputChange = (setter) => (e) => {
-    setter(e.target.value);
-    if (error) setError("");
-  };
-
   return (
     <div className="signup-container">
       <h2>Create Your Account</h2>
-      <form onSubmit={handleSubmit} className="signup-form">
+      <form onSubmit={handleSignUp} className="signup-form">
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
             type="email"
             id="email"
             value={email}
-            onChange={handleInputChange(setEmail)}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
             required
             disabled={loading}
@@ -66,7 +60,7 @@ const SignUp = () => {
             type="password"
             id="password"
             value={password}
-            onChange={handleInputChange(setPassword)}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Create a strong password"
             required
             disabled={loading}
@@ -87,12 +81,6 @@ const SignUp = () => {
           {loading ? "Processing..." : "Sign Up with Google"}
         </button>
       </div>
-      <p>
-        Already have an account?{" "}
-        <Link to="/login" className="toggle-auth">
-          Log In
-        </Link>
-      </p>
     </div>
   );
 };
