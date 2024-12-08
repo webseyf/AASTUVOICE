@@ -2,6 +2,7 @@
 .login-container {
   width: 360px;
   margin: 40px auto;
+  min-height: 70vh;
   padding: 30px;
   border-radius: 12px;
   background: linear-gradient(145deg, #f1f1f1, #e6e6e6);

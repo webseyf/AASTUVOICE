@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../hooks/useAuth"; // Import AuthContext hook
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../styles/SignUp.css";
 
 const SignUp = () => {
@@ -81,6 +82,12 @@ const SignUp = () => {
           {loading ? "Processing..." : "Sign Up with Google"}
         </button>
       </div>
+      <p>
+        Already have an account?{" "}
+        <Link to="/signin" className="toggle-auth">
+          Sign In
+        </Link>
+      </p>
     </div>
   );
 };
