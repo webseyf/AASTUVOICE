@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useFirestore } from "../hooks/useFirestore";
 import { useAuth } from "../contexts/AuthContexts";
 import "../styles/PostDetails.css";
+import Loader from "../components/Loader";
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -76,7 +77,7 @@ const PostDetails = () => {
     return comments.map((comment) => (
       <div key={comment.id} className="comment">
         <strong>{comment.author}</strong>: {comment.text}
-        <small>{new Date(comment.createdAt).toLocaleString()}</small>
+        {/* <small>{new Date(comment.createdAt).toLocaleString()}</small> */}
       </div>
     ));
   }, [comments]);
@@ -89,7 +90,7 @@ const PostDetails = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex < post.imageURLs.length - 1 ? prevIndex + 1 : 0));
   };
 
-  if (loading) return <div className="loading">Loading...</div>;
+  if (loading) return <div><Loader/></div>;
   if (!post) return <div className="error">Post not found. <button onClick={() => navigate("/")}>Go back</button></div>;
 
   return (

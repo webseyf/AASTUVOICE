@@ -3,6 +3,7 @@ import { useFirestore } from "../hooks/useFirestore.jsx";
 import Fuse from "fuse.js";
 import PostCard from "../components/PostCard.jsx";
 import "../styles/Home.css";
+import Loader from "../components/Loader.jsx";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -61,7 +62,7 @@ const Home = () => {
 
       {/* Posts */}
       {loading ? (
-        <div className="loading">Loading...</div>
+        <div ><Loader/></div>
       ) : filteredPosts.length > 0 ? (
         <div className="posts-grid">
           {filteredPosts.map((post) => (

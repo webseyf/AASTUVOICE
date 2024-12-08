@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useFirestore } from "../hooks/useFirestore.jsx";
 import PostCard from "../components/PostCard.jsx";
 import "../styles/Home.css"; // Update this if needed for Marketplace-specific styling
+import Loader from "../components/Loader.jsx";
 
 const MarketPlace = () => {
   const [posts, setPosts] = useState([]);
@@ -61,7 +62,7 @@ const MarketPlace = () => {
 
       {/* Posts */}
       {loading ? (
-        <div className="loading">Loading...</div>
+        <div ><Loader/></div>
       ) : filteredPosts.length > 0 ? (
         <div className="posts-grid">
           {filteredPosts.map((post) => (

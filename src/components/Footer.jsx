@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/Footer.css";
 import { Link } from "react-router-dom";
-import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube, FaTelegram, FaLinkedinIn } from "react-icons/fa";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -32,16 +32,14 @@ const Footer = () => {
           
           
           className="social-icons">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-              <FaFacebookF />
+           
+            <a href="https://www.linkedin.com/in/seyfadin-abdela-68112b33a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer">
+              <FaLinkedinIn />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-              <FaTwitter />
+            <a href="@seyfitti" target="_blank" rel="noopener noreferrer">
+              <FaTelegram />
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-              <FaInstagram />
-            </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
+            <a href="www.youtube.com/@SeyfadinTech" target="_blank" rel="noopener noreferrer">
               <FaYoutube />
             </a>
           </div>
