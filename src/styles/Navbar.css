@@ -275,7 +275,7 @@ body {
   .navbar-links {
     position: fixed;
     top: 0;
-    
+    margin-top: 14%;
     right: 0;
     flex-direction: column;
     gap: 1.5rem;
@@ -366,6 +366,3 @@ body {
 
 
 
-.nav-text{
-  color
-}

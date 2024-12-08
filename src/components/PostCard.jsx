@@ -50,7 +50,7 @@ const PostCard = ({ post }) => {
         <Link to={`/posts/${id}`} aria-label={`View details of ${title}`}>
           <h2 className="post-title">{title}</h2>
           <p className="post-snippet">
-            {content.length > 100 ? `${content.substring(0, 100)}...` : content}
+            {content.length > 80 ? `${content.substring(0, 80)}...` : content}
           </p>
         </Link>
         <div className="additional-info">

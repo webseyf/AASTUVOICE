@@ -49,7 +49,7 @@ const Navbar = () => {
         <ul className={`navbar-links ${isMenuOpen ? "active" : ""}`}>
           <li>
             <NavLink to="/marketplace" className="nav-link" onClick={() => setIsMenuOpen(false)}>
-              Marketplace
+              MarketPlace
             </NavLink>
           </li>
           <li>

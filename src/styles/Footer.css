@@ -1,16 +1,36 @@
+/* Body styles */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the page takes full height */
+  margin: 0; /* Remove default body margin */
+}
+
+/* Main content area */
+.main-content {
+  flex-grow: 1; /* This allows the main content to grow and push the footer down */
+}
+
+/* Footer styles */
 .footer {
   background: linear-gradient(135deg, #1f1c2c, #928dab);
   color: #fff;
-  
   padding: 2rem 1rem;
+  text-align: center;
+  width: 100%;
+  margin-top: auto; /* This pushes the footer to the bottom of the page */
 }
 
+/* Footer content */
 .footer-content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; /* Centering content vertically */
   text-align: center;
+  gap: 1rem; /* Adds space between items */
 }
+
 
 .footer-links,
 .footer-social,

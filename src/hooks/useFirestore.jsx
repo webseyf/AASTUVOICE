@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { db } from "../firebase/config"; // Ensure correct Firebase initialization
+import { db } from "../firebase/config";
 import {
   collection,
   addDoc,
@@ -12,15 +12,13 @@ import {
   orderBy,
   where,
   Timestamp,
-  // arrayUnion,
-  // increment,
 } from "firebase/firestore";
 
 // Helper function to handle Firestore operations with loading and error states
 const firestoreAction = async (action, setLoading, setError) => {
   try {
     setLoading(true);
-    setError(null); // Clear previous errors
+    setError(null);
     return await action();
   } catch (err) {
     setError(err.message || "An error occurred");
@@ -39,36 +37,34 @@ export const useFirestore = () => {
   const commentsRef = collection(db, "comments");
 
   // Fetch all posts (ordered by creation date)
-// Fetch all posts (ordered by creation date)
-const fetchPosts = async () => {
-  return await firestoreAction(async () => {
-    try {
-      const q = query(postsRef, orderBy("createdAt", "desc"));
-      const snapshot = await getDocs(q);
+  const fetchPosts = async () => {
+    return await firestoreAction(async () => {
+      try {
+        const q = query(postsRef, orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
 
-      if (snapshot.empty) {
-        console.warn("No posts found in Firestore.");
-        return []; // Return an empty array if no posts found
-      }
-
-      return snapshot.docs.map((doc) => {
-        const data = doc.data();
-        // Ensure `createdAt` is present; otherwise, log a warning
-        if (!data.createdAt) {
-          console.warn(`Document ${doc.id} is missing 'createdAt' field.`);
+        if (snapshot.empty) {
+          console.warn("No posts found in Firestore.");
+          return [];
         }
-        return {
-          id: doc.id,
-          ...data,
-          createdAt: data.createdAt ? data.createdAt.toDate() : null, // Convert Firestore Timestamp to JS Date
-        };
-      });
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-      throw error; // Re-throw to handle in `firestoreAction`
-    }
-  }, setLoading, setError);
-};
+
+        return snapshot.docs.map((doc) => {
+          const data = doc.data();
+          if (!data.createdAt) {
+            console.warn(`Document ${doc.id} is missing 'createdAt' field.`);
+          }
+          return {
+            id: doc.id,
+            ...data,
+            createdAt: data.createdAt ? data.createdAt.toDate() : null,
+          };
+        });
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        throw error;
+      }
+    }, setLoading, setError);
+  };
 
   // Fetch a single post by ID
   const fetchPostById = async (postId) => {
@@ -126,8 +122,6 @@ const fetchPosts = async () => {
       await addDoc(postsRef, {
         ...postData,
         createdAt: Timestamp.now(),
-        // likes: 0,
-        // likedBy: [],
       });
     }, setLoading, setError);
   };
@@ -146,34 +140,6 @@ const fetchPosts = async () => {
     }, setLoading, setError);
   };
 
-  // Like a post (ensures one like per user)
-  // const likePost = async (postId, userId) => {
-  //   return await firestoreAction(async () => {
-  //     const postRef = doc(postsRef, postId);
-
-  //     await db.runTransaction(async (transaction) => {
-  //       const postSnap = await transaction.get(postRef);
-  //       if (!postSnap.exists()) {
-  //         throw new Error("Post does not exist");
-  //       }
-
-  //       const postData = postSnap.data();
-  //       const { likedBy = [] } = postData;
-
-  //       if (likedBy.includes(userId)) {
-  //         // User already liked, no action needed
-  //         return;
-  //       }
-
-  //       // Add user to likedBy and increment likes
-  //       transaction.update(postRef, {
-  //         likedBy: arrayUnion(userId),
-  //         likes: increment(1),
-  //       });
-  //     });
-  //   }, setLoading, setError);
-  // };
-
   return {
     fetchPosts,
     fetchPostById,
@@ -183,7 +149,6 @@ const fetchPosts = async () => {
     addPost,
     deletePost,
     updatePost,
-    // likePost,
     loading,
     error,
   };

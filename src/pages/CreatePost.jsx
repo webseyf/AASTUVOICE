@@ -19,7 +19,7 @@ const CreatePost = () => {
   const navigate = useNavigate();
 
   const categories = ["All General Posts", "Product To Sale"];
-  const deliveryOptions = ["Free delivery", "Pick up", "5 Birr delivery"]; // Delivery options
+  const deliveryOptions = ["Free delivery", "Pick up", "5 Br delivery", "10 Br delivery"]; // Delivery options
 
   const handleFileChange = (e) => {
     setSelectedFiles([...e.target.files]);

@@ -53,7 +53,7 @@
 }
 
 .post-snippet {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #7f8c8d;
   margin: 0.5rem 0;
 }
@@ -99,11 +99,11 @@
   }
 
   .post-title {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 
   .post-snippet {
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
 
   .details-link {
@@ -123,9 +123,11 @@
   }
 
   .post-snippet {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
+  .post-delivery {
 
+  }
   .details-link {
     font-size: 0.8rem;
     padding: 5px 10px;
@@ -151,6 +153,11 @@
   z-index: 11111;
 }
 
+.additional-info{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
 
 
@@ -163,8 +170,7 @@
 
 
 
-
-.like-button button {
+/* .like-button button {
   background-color: #c2c2c2;
   color: white;
   border: none;
@@ -183,4 +189,4 @@
 
 .like-button button:hover {
   background-color: #0056b3;
-}
+} */
