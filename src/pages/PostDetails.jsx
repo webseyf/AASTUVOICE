@@ -201,7 +201,7 @@ const PostDetails = () => {
         )}
 <div className="comments-container">
   {commentsLoading ? (
-    <p className="comments-loading">Loading comments...</p>
+    <p className="comments-loading"><Loader/></p>
   ) : comments.length > 0 ? (
     <div className="comments-list">{renderComments}</div>
   ) : (

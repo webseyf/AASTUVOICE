@@ -84,7 +84,7 @@ const SignUp = () => {
       </div>
       <p>
         Already have an account?{" "}
-        <Link to="/signin" className="toggle-auth">
+        <Link to="/login" className="toggle-auth">
           Sign In
         </Link>
       </p>

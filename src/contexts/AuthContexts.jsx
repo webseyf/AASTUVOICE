@@ -9,6 +9,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup 
 } from "firebase/auth";
+import Loader from "../components/Loader";
 
 // Create the AuthContext
 export const AuthContext = createContext();
@@ -117,7 +118,7 @@ export const AuthProvider = ({ children }) => {
   // Render the provider and children components
   return (
     <AuthContext.Provider value={value}>
-      {!loading ? children : <p>Loading...</p>}
+      {!loading ? children : <p><Loader/></p>}
     </AuthContext.Provider>
   );
 };
